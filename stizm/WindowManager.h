@@ -1,6 +1,7 @@
 #pragma once
 
 #include "framework.h"
+#include "MainWindow.h"
 
 enum messageTypes { 
 	Exclamation = MB_ICONEXCLAMATION,
@@ -10,19 +11,19 @@ enum messageTypes {
 
 class WindowManager
 {
-
+	MainWindow* mainWindow;
 	WindowManager() {}
 	WindowManager(const WindowManager&) {}
 	void operator=(const WindowManager&) {}
 public:
 
-	static WindowManager* getInstance() {
+	static WindowManager& getInstance() {
 
 		static WindowManager	wm_instance;
-		return &wm_instance;
+		return wm_instance;
 	}
 
-	int Init();
+	int Init(HINSTANCE _Instance);
 	int Shutdown();
 
 	int CreateMainWindow();

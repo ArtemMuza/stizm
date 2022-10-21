@@ -36,6 +36,9 @@
     <ClInclude Include="WindowManager.h">
       <Filter>Исходные файлы\WindowManager</Filter>
     </ClInclude>
+    <ClInclude Include="MainWindow.h">
+      <Filter>Исходные файлы\WindowManager\Units</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stizm.cpp">
@@ -43,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="WindowManager.cpp">
       <Filter>Исходные файлы\WindowManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWindow.cpp">
+      <Filter>Исходные файлы\WindowManager\Units</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,12 @@
 #include "WindowManager.h"
+int WindowManager::Init(HINSTANCE _Instance) {
+	mainWindow = new MainWindow(_Instance);
+	return 1;
+}
 
-
+int WindowManager::CreateMainWindow() {
+	return mainWindow->Create();
+}
 
 int WindowManager::Message(std::string _msg, std::string _title, messageTypes _type) {
 
