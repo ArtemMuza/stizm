@@ -3,6 +3,7 @@
 
 #include "framework.h"
 #include "stizm.h"
+#include "WindowManager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -25,7 +26,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
+
     // TODO: Разместите код здесь.
+    WindowManager::Message("Goodbye, World! :c", Error);
 
     // Инициализация глобальных строк
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);

@@ -2,6 +2,12 @@
 
 #include "framework.h"
 
+enum messageTypes { 
+	Exclamation = MB_ICONEXCLAMATION,
+	Information = MB_ICONINFORMATION,
+	Error = MB_ICONERROR
+};
+
 class WindowManager
 {
 
@@ -20,7 +26,9 @@ public:
 	int Shutdown();
 
 	int CreateMainWindow();
+	
 
-	int Message(std::string _msg, int _type);
+	static int Message(std::string _msg, std::string _title, messageTypes _type = Exclamation);
+	static int Message(std::string _msg, messageTypes _type = Exclamation);
 };
 
