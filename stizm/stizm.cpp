@@ -5,6 +5,7 @@
 #include "stizm.h"
 #include "WindowManager.h"
 
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -29,7 +30,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
+
+        MainWindow::DrawGLScene();
+        
     }
+   
+
 
     return (int) msg.wParam;
 }
