@@ -14,4 +14,7 @@
 #include <memory.h>
 #include <tchar.h>
 
-#include <string>
+#include <string>                   
+
+#include <gl\gl.h>                                // Header File For The OpenGL32 Library
+#include <gl\glu.h>    
