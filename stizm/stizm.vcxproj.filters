@@ -19,6 +19,9 @@
     <Filter Include="Исходные файлы\WindowManager\Units">
       <UniqueIdentifier>{0091ea6e-bcb3-42a8-bc0a-39d50c79405a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\RenderManager">
+      <UniqueIdentifier>{46709731-4427-42de-97d0-9902732bff54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -39,6 +42,9 @@
     <ClInclude Include="MainWindow.h">
       <Filter>Исходные файлы\WindowManager\Units</Filter>
     </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Исходные файлы\RenderManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stizm.cpp">
@@ -49,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="MainWindow.cpp">
       <Filter>Исходные файлы\WindowManager\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Исходные файлы\RenderManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

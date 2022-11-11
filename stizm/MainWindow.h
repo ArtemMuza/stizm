@@ -1,6 +1,8 @@
 #pragma once
 #include "framework.h"
 #define mainWindowName L"MainWindow"
+
+
 class MainWindow
 {
 private:
@@ -11,14 +13,11 @@ private:
 	WNDCLASSEXW mainWindowClass = { NULL };
 
 	ATOM Register();
-	int InitGL();
 public:
 	MainWindow(HINSTANCE _hInstance);
 	static LRESULT mainWindowProcedure(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	static GLvoid ResizeWindow(GLsizei width, GLsizei height);          // Resize And Initialize The GL Window
-	
-	static int DrawGLScene();
-	
+
 	int Create();
 	GLvoid Destroy();
 

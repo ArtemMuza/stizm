@@ -4,6 +4,7 @@
 #include "framework.h"
 #include "stizm.h"
 #include "WindowManager.h"
+#include "RenderManager.h"
 
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -15,13 +16,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
 
+
     WindowManager* windManager = &WindowManager::getInstance();
+    RenderManager* rendManager = &RenderManager::getInstance();
     windManager->Init(hInstance);
 
     windManager->CreateMainWindow();
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_STIZM));
     MSG msg;
     
+    rendManager->Init();
     // Цикл основного сообщения:
     while (GetMessage(&msg, nullptr, 0, 0))
     {
@@ -31,7 +35,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             DispatchMessage(&msg);
         }
 
-        MainWindow::DrawGLScene();
+        RenderManager::Render();
         
     }
    
