@@ -2,7 +2,7 @@
 #include "stizm.h"
 #define WIDTH 1280
 #define HEIGHT 720
-static HDC* hDeviceContextGlobal;
+HDC* hDeviceContextGlobal = nullptr;
 MainWindow::MainWindow(HINSTANCE _hInstance) : hInstance(_hInstance){
     hDeviceContextGlobal = &hDeviceContext;
 }
@@ -26,19 +26,7 @@ ATOM MainWindow::Register() {
     return RegisterClassExW(&mainWindowClass);
 }
 
-int MainWindow::InitGL() {
 
-    glShadeModel(GL_SMOOTH);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-    glClearDepth(1.0f);
-    glEnable(GL_DEPTH_TEST);                       
-    glDepthFunc(GL_LEQUAL);
-
-    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
-    return true;
-}
 
 LRESULT MainWindow::mainWindowProcedure(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     switch (message)
@@ -121,14 +109,6 @@ GLvoid MainWindow::Destroy() {
     }
 }
 
-int MainWindow::DrawGLScene() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);        
-    glLoadIdentity();       
-    glClearColor(1, 1, 0, 1);
-
-    SwapBuffers(*hDeviceContextGlobal);
-    return TRUE;
-}
 
 GLvoid MainWindow::ResizeWindow(GLsizei width, GLsizei height) {
     if (height == 0)                         
@@ -208,12 +188,12 @@ int MainWindow::CreateContext() {
 
     ResizeWindow(WIDTH, HEIGHT);
 
-    if (!InitGL())                              // Initialize Our Newly Created GL Window
-    {
-        Destroy();                         // Reset The Display
-        WindowManager::Message("Initialization Failed.", Error);
-        return FALSE;                           // Return FALSE
-    }
+    //if ()                              // Initialize Our Newly Created GL Window
+    //{
+    //    Destroy();                         // Reset The Display
+    //    WindowManager::Message("Initialization Failed.", Error);
+    //    return FALSE;                           // Return FALSE
+    //}
 
     return TRUE;
 }
