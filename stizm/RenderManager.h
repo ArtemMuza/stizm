@@ -9,6 +9,9 @@ private:
 	RenderManager(const RenderManager&) {};
 	void operator=(const RenderManager&) {};
 
+
+	void LoadShaders();
+	void GenVABO();
 public:
 	static RenderManager& getInstance() {
 
@@ -18,6 +21,15 @@ public:
 	
 	int Init();
 	int Shutdown();
+
+	int shaderProgram;
+	unsigned VAO, VBO;
+
+	float vertices[9] = {
+	   -0.5f, -0.5f, 0.0f, // левая вершина
+		0.5f, -0.5f, 0.0f, // правая вершина
+		0.0f,  0.5f, 0.0f  // верхняя вершина   
+	};
 
 	static void Render();
 };

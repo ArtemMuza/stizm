@@ -18,14 +18,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
     WindowManager* windManager = &WindowManager::getInstance();
-    RenderManager* rendManager = &RenderManager::getInstance();
+    RenderManager* renderManager = &RenderManager::getInstance();
     windManager->Init(hInstance);
 
     windManager->CreateMainWindow();
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_STIZM));
     MSG msg;
     
-    rendManager->Init();
+    renderManager->Init();
     // Цикл основного сообщения:
     while (GetMessage(&msg, nullptr, 0, 0))
     {
@@ -34,7 +34,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-
+        glUseProgram(renderManager->shaderProgram);
+        glBindVertexArray(renderManager->VAO);
         RenderManager::Render();
         
     }
