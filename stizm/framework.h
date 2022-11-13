@@ -16,5 +16,10 @@
 
 #include <string>                   
 
-#include <gl\gl.h>                                // Header File For The OpenGL32 Library
-#include <gl\glu.h>    
+#include <gl/glew.h>
+#include <gl/gl.h>                                // Header File For The OpenGL32 Library
+#include <gl/glu.h> 
+
+#pragma comment (lib, "opengl32.lib")
+#pragma comment (lib, "glu32.lib")
+

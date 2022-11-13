@@ -188,12 +188,5 @@ int MainWindow::CreateContext() {
 
     ResizeWindow(WIDTH, HEIGHT);
 
-    //if ()                              // Initialize Our Newly Created GL Window
-    //{
-    //    Destroy();                         // Reset The Display
-    //    WindowManager::Message("Initialization Failed.", Error);
-    //    return FALSE;                           // Return FALSE
-    //}
-
     return TRUE;
 }
