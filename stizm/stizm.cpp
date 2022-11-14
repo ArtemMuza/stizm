@@ -5,6 +5,7 @@
 #include "stizm.h"
 #include "WindowManager.h"
 #include "RenderManager.h"
+#include "LogManager.h"
 
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -40,7 +41,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         
     }
    
-
+    
 
     return (int) msg.wParam;
 }
