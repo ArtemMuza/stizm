@@ -15,16 +15,14 @@ extern LogManager LogManagerInstance;
 #define L_LOG (LogManagerInstance << "LOG " << LogManagerInstance.prefix(__FILE__, __LINE__))
 #define L_FATAL (LogManagerInstance << "FATAL " << LogManagerInstance.prefix(__FILE__, __LINE__))
 
-std::string getCurrentDateTime() {
-	auto now = std::chrono::system_clock::now();
-	std::time_t end_time = std::chrono::system_clock::to_time_t(now);
-	return std::ctime(&end_time);
-}
+
 
 class LogSettings {
 public:
 	std::string     workingDir = "C:/Users/1Cobalt/source/repos/stizm/stizm/debug/";
 	std::string     fileName = "logMessage.txt";
+	std::ofstream   logFile;
+
 	bool            isOverwrite = true;
 
 	bool            isConsoleUsed = true;
@@ -33,6 +31,7 @@ public:
 
 
 	LogSettings() {}
+	LogSettings& operator=(LogSettings& other);
 };
 
 
@@ -46,7 +45,7 @@ private:
 
 
 	bool isInit;
-	std::ofstream logFile;
+	
 	LogSettings  settings;
 
 public:
@@ -58,14 +57,14 @@ public:
 		return lm_instance;
 	}
 
-	bool Init(const LogSettings& settings);
+	bool Init(LogSettings& settings);
 	void Shutdown();
 
 	template<typename T> LogManager& operator<<(T t);
 	LogManager& operator<<(std::ostream& (*ost)(std::ostream&));
 
 
-	std::string prefix(const std::string& file, const int line) { return (getCurrentDateTime() + ':' + file + '(' + std::to_string(line) + "):");}
+	std::string prefix(const std::string& file, const int line);
 };
 
 
@@ -87,7 +86,7 @@ LogManager& LogManager::operator<<(std::ostream& (*ost)(std::ostream&)) {
 		if (this->settings.isConsoleUsed)
 			std::cerr << std::endl;
 		if (this->settings.isFileUsed)
-			(this->logFile) << std::endl;
+			(this->settings.logFile) << std::endl;
 	}
 	return *this;
 }
