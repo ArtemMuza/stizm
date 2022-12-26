@@ -20,13 +20,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     WindowManager* windManager = &WindowManager::getInstance();
     RenderManager* renderManager = &RenderManager::getInstance();
+    LogManager* logManager = &LogManager::getInstance();
+
     windManager->Init(hInstance);
+
+    LogSettings settings;
+    
+    settings.logStream = &std::cout;
+    logManager->Init(settings);
+
+    L_LOG << "Hello world!";
 
     windManager->CreateMainWindow();
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_STIZM));
     MSG msg;
-    
+
     renderManager->Init();
+    
     // Цикл основного сообщения:
     while (GetMessage(&msg, nullptr, 0, 0))
     {

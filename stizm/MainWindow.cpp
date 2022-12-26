@@ -2,6 +2,31 @@
 #include "stizm.h"
 #define WIDTH 1280
 #define HEIGHT 720
+
+#define BTN_GEN 500
+
+#define EDT_FRST 601
+#define EDT_SCND 602
+
+#define CHCK_FRST 701
+
+#define CMND_WND 10000
+
+#define Radio1 10001
+#define Radio2 10002
+#define Radio3 10003
+
+HWND hEditWidth = NULL;
+HWND hEditHeight = NULL;
+
+HWND hwndButton = NULL;
+
+HWND hwndRadioB1 = NULL;
+HWND hwndRadioB2 = NULL;
+HWND hwndRadioB3 = NULL;
+
+int styleUsed = 0;
+
 HDC* hDeviceContextGlobal = nullptr;
 MainWindow::MainWindow(HINSTANCE _hInstance) : hInstance(_hInstance){
     hDeviceContextGlobal = &hDeviceContext;
@@ -23,12 +48,14 @@ ATOM MainWindow::Register() {
     mainWindowClass.hIconSm = LoadIcon(mainWindowClass.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
 
+
     return RegisterClassExW(&mainWindowClass);
 }
 
 
 
 LRESULT MainWindow::mainWindowProcedure(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+    int buffW, buffH;
     switch (message)
     {
     case WM_SIZE: {
@@ -43,9 +70,53 @@ LRESULT MainWindow::mainWindowProcedure(HWND hWnd, UINT message, WPARAM wParam, 
         // Разобрать выбор в меню:
         switch (wmId)
         {
-        case IDM_EXIT:
+        case BTN_GEN:
+        {
+            wchar_t width[3], height[3];
+
+            GetWindowTextW(hEditWidth, width, 3);
+            GetWindowTextW(hEditHeight, height, 3);
+
+
+            if (!((char)width[1] >= '0' && (char)width[1] <= '9')) {
+                if (width[0] > '9' || width[0] < '0')
+                    width[0] = 0;
+
+                buffW = (char)width[0] - '0';
+            }
+            else
+                buffW = ((char)width[0] - '0') * 10 + (char)width[1] - '0';
+
+            if (!((char)height[1] >= '0' && (char)height[1] <= '9')) {
+                if (height[0] > '9' || height[0] < '0')
+                    height[0] = 0;
+
+                buffH = (char)height[0] - '0';
+            }
+            else
+                buffH = ((char)height[0] - '0') * 10 + (char)height[1] - '0';
+
+            
+
+            RenderManager::getInstance().ChangeValues(buffW, buffH, styleUsed);
+
+            break;
+        }
+        case Radio1:
+            styleUsed = 0;
+            break;
+        case Radio2:
+            styleUsed = 1;
+            break;
+        case Radio3:
+            styleUsed = 2;
+            break;
+
+        case IDM_EXIT: 
+        {
             DestroyWindow(hWnd);
             break;
+        }
         default:
             return DefWindowProc(hWnd, message, wParam, lParam);
         }
@@ -63,26 +134,115 @@ LRESULT MainWindow::mainWindowProcedure(HWND hWnd, UINT message, WPARAM wParam, 
 
 int MainWindow::Create() {
     Register();
-    
+ 
 
-    mainWindowHandler = CreateWindowW(
+    if (NULL == (mainMenuHandler = CreateWindowW(
+        mainWindowName,
+        L"OpenGL",
+        WS_BORDER,
+        CW_USEDEFAULT, 0,
+        WIDTH*1.1, HEIGHT*1.1,
+        mainWindowHandler,
+        nullptr,
+        hMenuInstance,
+        nullptr)))
+        return FALSE;
+
+    if (NULL == (mainWindowHandler = CreateWindowW(
         mainWindowName, 
         L"OpenGL", 
-        WS_OVERLAPPEDWINDOW,
+        WS_CHILD,
         CW_USEDEFAULT, 0, 
-        WIDTH, HEIGHT, 
-        nullptr, 
+        WIDTH, HEIGHT*1.1, 
+        mainMenuHandler, 
         nullptr, 
         hInstance, 
-        nullptr);
+        nullptr)))
+        return FALSE;
 
-    if (!mainWindowHandler)
+    
+
+    
+
+    if (NULL == (hwndButton = CreateWindow(
+        L"BUTTON",  // Predefined class; Unicode assumed 
+        L"GENERATE",      // Button text 
+        WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
+        (WIDTH), 130, (WIDTH*0.09), 100,
+        mainMenuHandler,     // Parent window
+        (HMENU)BTN_GEN,       // No menu.
+        (HINSTANCE)GetWindowLongPtr(mainWindowHandler, GWLP_HINSTANCE),
+        NULL)))// Pointer not needed.
+        return FALSE;
+
+    if (NULL == (hEditWidth = CreateWindow(
+        L"EDIT",
+        L"1",
+        WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_LEFT |
+        ES_MULTILINE | ES_AUTOVSCROLL,
+        WIDTH+10, 20, 40, 20,
+        mainMenuHandler,
+        (HMENU)EDT_FRST,
+        (HINSTANCE)GetWindowLongPtr(mainWindowHandler, GWLP_HINSTANCE),
+        NULL)))
+        return FALSE;
+
+    if (NULL == (hEditHeight = CreateWindow(
+        L"EDIT",
+        L"1",
+        WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_LEFT |
+        ES_MULTILINE | ES_AUTOVSCROLL,
+        WIDTH+70, 20, 40, 20,
+        mainMenuHandler,
+        (HMENU)EDT_SCND,
+        (HINSTANCE)GetWindowLongPtr(mainWindowHandler, GWLP_HINSTANCE),
+        NULL)))
+        return FALSE;
+
+    if (NULL == (hwndRadioB1 = CreateWindow(
+        L"button", 
+        L"Line mode",
+        WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON,
+        WIDTH+10, 50, 95, 30, 
+        mainMenuHandler, 
+        (HMENU)Radio1, (HINSTANCE)GetWindowLongPtr(mainWindowHandler, GWLP_HINSTANCE), 
+        NULL)))
+        return FALSE;
+
+    if (NULL == (hwndRadioB1 = CreateWindow(
+        L"button", 
+        L"Fill mode",
+        WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON,
+        WIDTH+10, 75, 95, 30,
+        mainMenuHandler,
+        (HMENU)Radio2, (HINSTANCE)GetWindowLongPtr(mainWindowHandler, GWLP_HINSTANCE),
+        NULL)))
+        return FALSE;
+
+    if (NULL == (hwndRadioB1 = CreateWindow(
+        L"button", 
+        L"Point mode",
+        WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON,
+        WIDTH+10, 100, 95, 30,
+        mainMenuHandler,
+        (HMENU)Radio3, (HINSTANCE)GetWindowLongPtr(mainWindowHandler, GWLP_HINSTANCE),
+        NULL)))
+        return FALSE;
+
+
+        
+
+
+    if (!mainWindowHandler )
     {
         return FALSE;
     }
     CreateContext();
     ShowWindow(mainWindowHandler, SW_SHOW);
+    ShowWindow(mainMenuHandler, SW_SHOW);
+
     UpdateWindow(mainWindowHandler);
+    //UpdateWindow(mainCommandHandler);
 
     return TRUE;
 }

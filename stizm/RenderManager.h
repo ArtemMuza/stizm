@@ -12,24 +12,26 @@ private:
 
 	void LoadShaders();
 	void GenVABO();
+
 public:
+	int structWidth;
+	int structHeight;
 	static RenderManager& getInstance() {
 
 		static RenderManager	rm_instance;
 		return rm_instance;
 	}
+
+	GLvoid ChangeValues(int newWidth, int newHeight, int newStyle);
 	
 	int Init();
 	int Shutdown();
 
 	int shaderProgram;
 	unsigned VAO, VBO;
+	
 
-	float vertices[9] = {
-	   -0.5f, -0.5f, 0.0f, // левая вершина
-		0.5f, -0.5f, 0.0f, // правая вершина
-		0.0f,  0.5f, 0.0f  // верхняя вершина   
-	};
+	
 
 	static void Render();
 };
